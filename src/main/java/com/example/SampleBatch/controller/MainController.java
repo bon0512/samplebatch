@@ -2,6 +2,7 @@ package com.example.SampleBatch.controller;
 
 
 import ch.qos.logback.core.encoder.EchoEncoder;
+import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.configuration.JobRegistry;
@@ -34,6 +35,16 @@ public class MainController {
         jobLauncher.run(jobRegistry.getJob("firstJob"), jobParameters);
         return "ok";
 
+    }
+
+    @GetMapping("/second")
+    public String secondApi(@RequestParam("value") String value) throws Exception{
+        JobParameters jobParameter = new JobParametersBuilder()
+                .addString("date",value)
+                .toJobParameters();
+
+        jobLauncher.run(jobRegistry.getJob("secondJob"), jobParameter );
+        return "ok";
     }
 
 
